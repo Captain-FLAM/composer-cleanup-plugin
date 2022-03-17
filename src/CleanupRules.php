@@ -1,6 +1,6 @@
 <?php
 
-namespace Barryvdh\Composer;
+namespace CaptainFLAM\Composer;
 
 class CleanupRules
 {
@@ -11,12 +11,11 @@ class CleanupRules
         $tests = '.travis.yml .scrutinizer.yml phpcs.xml* phpcs.php phpunit.xml* phpunit.php test tests Tests travis patchwork.json';
 
         return array(
-            'tecnickcom/tcpdf'                     => array($docs, $tests, 'fonts'),
+            'aws/aws-sdk-php'                 	    => array($docs, $tests),
             'anahkiasen/former'                     => array($docs, $tests),
             'anahkiasen/html-object'                => array($docs, 'phpunit.xml* tests/*'),
             'anahkiasen/rocketeer'                  => array($docs, $tests),
             'anahkiasen/underscore-php'             => array($docs, $tests),
-            'aws/aws-sdk-php'                 	    => array($docs, $tests),
             'barryvdh/composer-cleanup-plugin'      => array($docs, $tests),
             'barryvdh/laravel-debugbar'             => array($docs, $tests),
             'barryvdh/laravel-ide-helper'           => array($docs, $tests),
@@ -92,6 +91,7 @@ class CleanupRules
             'symfony/security-core'                 => array($docs, $tests),
             'symfony/translation'                   => array($docs, $tests),
             'symfony/var-dumper'                    => array($docs, $tests),
+            'tecnickcom/tcpdf'                     => array($docs, $tests, 'fonts'),
             'tijsverkoyen/css-to-inline-styles'     => array($docs, $tests),
             'twig/twig'                             => array($docs, $tests),
             'venturecraft/revisionable'             => array($docs, $tests),
@@ -99,7 +99,19 @@ class CleanupRules
             'willdurand/geocoder'                   => array($docs, $tests),
             'willdurand/geocoder'                   => array($docs, $tests),
             
-
+            // Specific to Mautic
+            'aws/aws-crt-php'                       => array($docs, $tests),
+            'bandwidth-throttle/token-bucket'       => array($docs, $tests),
+            'simshaun/recurr'                       => array($docs, $tests),
+			'mautic/core-lib'                       => array($docs, $tests),
+			'mautic/core-project-message'           => array($docs, $tests),
+			'mautic/grapes-js-builder-bundle'       => array($docs, $tests),
+			'mautic/plugin-citrix'                  => array($docs, $tests),
+			'mautic/plugin-crm'                     => array($docs, $tests),
+			'mautic/plugin-focus'                   => array($docs, $tests),
+			'mautic/plugin-tagmanager'              => array($docs, $tests),
+			'koco/mautic-recaptcha-bundle'          => array($docs, $tests),
+            // ''                   => array($docs, $tests),
         );
     }
 }

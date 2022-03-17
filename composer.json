@@ -1,5 +1,5 @@
 {
-    "name": "barryvdh/composer-cleanup-plugin",
+    "name": "CaptainFLAM/composer-cleanup-plugin",
     "type": "composer-plugin",
     "description": "A composer cleanup plugin, to remove tests and documentation to save space",
     "license": "MIT",
@@ -7,6 +7,9 @@
         {
             "name": "Barry vd. Heuvel",
             "email": "barryvdh@gmail.com"
+        },
+        {
+            "name": "Captain FLAM"
         }
     ],
     "require": {
@@ -14,13 +17,10 @@
     },
     "autoload": {
         "psr-4": {
-            "Barryvdh\\Composer\\": "src/"
+            "CaptainFLAM\\Composer\\": "src/"
         }
     },
     "extra": {
-        "branch-alias": {
-            "dev-master": "0.3-dev"
-        },
-        "class": "Barryvdh\\Composer\\CleanupPlugin"
+        "class": "CaptainFLAM\\Composer\\CleanupPlugin"
     }
 }

@@ -13,7 +13,7 @@ you can use this package to cut down the vendor directory by deleting files that
 
 Require this package in your composer.json:
 
-      "barryvdh/composer-cleanup-plugin": "0.2.x"
+      "CaptainFLAM/composer-cleanup-plugin": "master"
       
 ## Usage
 

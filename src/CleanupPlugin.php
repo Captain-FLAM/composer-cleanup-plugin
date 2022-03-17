@@ -1,6 +1,6 @@
 <?php
 
-namespace Barryvdh\Composer;
+namespace CaptainFLAM\Composer;
 
 use Composer\Composer;
 use Composer\EventDispatcher\EventSubscriberInterface;
