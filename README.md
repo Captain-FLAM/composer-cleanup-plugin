@@ -11,9 +11,17 @@ you can use this package to cut down the vendor directory by deleting files that
 
 ## Install
 
-Require this package in your composer.json:
+Add this in your composer.json:
 
-      "CaptainFLAM/composer-cleanup-plugin": "master"
+      "require": {
+        "captainflam/composer-cleanup-plugin": "master"
+	  },
+	  "repositories": [
+        {
+          "type": "vcs",
+          "url": "https://github.com/Captain-FLAM/composer-cleanup-plugin.git"
+        }
+      ],
       
 ## Usage
 
