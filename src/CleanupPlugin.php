@@ -16,6 +16,8 @@ class CleanupPlugin implements PluginInterface, EventSubscriberInterface
 {
 	/** @var  \Composer\Composer $composer */
 	protected $composer;
+	/** @var  \Composer\Composer $installManager */
+	protected $installManager;
 	/** @var  \Composer\IO\IOInterface $io */
 	protected $io;
 	/** @var  \Composer\Config $config */
@@ -35,6 +37,7 @@ class CleanupPlugin implements PluginInterface, EventSubscriberInterface
 		$this->config = $composer->getConfig();
 		$this->filesystem = new Filesystem();
 		$this->rules = CleanupRules::getRules();
+		$this->installManager = $composer->getInstallationManager();
 	}
 	
 	/**
@@ -66,45 +69,39 @@ class CleanupPlugin implements PluginInterface, EventSubscriberInterface
 	}
 
 	/**
-	 * Function to run after a package has been installed
+	 * Run after a package has been installed
 	 */
 	public function onPostPackageInstall(PackageEvent $event)
 	{
 		$this->io->write('****    Clean Packages - Post Package Install    ****');
-		/** @var \Composer\Package\CompletePackage $package */
-		$package = $event->getOperation()->getPackage();
 		
-		$this->cleanPackage($package);
+		$this->cleanPackage($event->getOperation()->getPackage());
 	}
 
 	/**
-	 * Function to run after a package has been updated
+	 * Run after a package has been updated
 	 */
 	public function onPostPackageUpdate(PackageEvent $event)
 	{
 		$this->io->write('****    Clean Packages - Post Package Update    ****');
-		/** @var \Composer\Package\CompletePackage $package */
-		$package = $event->getOperation()->getTargetPackage();
 		
-		$this->cleanPackage($package);
+		$this->cleanPackage($event->getOperation()->getTargetPackage());
 	}
 
 	/**
-	 * Function to run after a package has been updated
+	 * Run after composer command install or update
 	 *
 	 * @param CommandEvent $event
 	 */
 	public function onPostInstallUpdateCmd(Event $event)
 	{
 		$this->io->write('****    Clean Packages - Command : '.$event->getName().'    ****');
-		/** @var \Composer\Repository\WritableRepositoryInterface $repository */
-		$repository = $this->composer->getRepositoryManager()->getLocalRepository();
 		
-		/** @var \Composer\Package\CompletePackage $package */
-		foreach($repository->getPackages() as $package){
-			if ($package instanceof BasePackage) {
-				$this->cleanPackage($package);
-			}
+		$packages = $this->composer->getRepositoryManager()->getLocalRepository()->getPackages();
+		
+		foreach($packages as $package)
+		{
+			if ($package instanceof BasePackage) $this->cleanPackage($package);
 		}
 	}
 
@@ -117,19 +114,19 @@ class CleanupPlugin implements PluginInterface, EventSubscriberInterface
 	protected function cleanPackage(BasePackage $package)
 	{
 		// Only clean 'dist' packages
-		if ($package->getInstallationSource() !== 'dist') return false;
+		// if ($package->getInstallationSource() !== 'dist') return false;
 		
-		$vendorDir = $this->config->get('vendor-dir');
-		$targetDir = $package->getTargetDir();
 		$packageName = $package->getPrettyName();
-		$packageDir = $targetDir ? $packageName.'/'.$targetDir : $packageName ;
-		
 		if (! isset($this->rules[$packageName])) return;
 		
-		$dir = $this->filesystem->normalizePath(realpath($vendorDir.'/'.$packageDir));
-		if (! is_dir($dir)) return false;
+		$packageDir = $this->installManager->getInstallPath($package);
+		$targetDir  = $package->getTargetDir();
+		if ($targetDir) $packageDir .= '/'.$targetDir;
 		
-		$this->io->write('Clean package : '.$packageName);
+		$packageDir = $this->filesystem->normalizePath(realpath($packageDir));
+		if (! is_dir($packageDir)) return false;
+		
+		// $this->io->write('Clean package : '.$packageName);
 		
 		foreach($this->rules[$packageName] as $part)
 		{
@@ -139,7 +136,8 @@ class CleanupPlugin implements PluginInterface, EventSubscriberInterface
 			foreach ($patterns as $pattern)
 			{
 				try {
-					foreach (glob($dir.'/'.$pattern) as $file) {
+					foreach (glob($packageDir.'/'.$pattern) as $file)
+					{
 						$this->filesystem->remove($file);
 					}
 				}
