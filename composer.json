@@ -1,15 +1,14 @@
 {
-    "name": "CaptainFLAM/composer-cleanup-plugin",
+    "name": "Captain-FLAM/composer-cleanup-plugin",
     "type": "composer-plugin",
     "description": "A composer cleanup plugin, to remove tests and documentation to save space",
     "license": "MIT",
     "authors": [
         {
-            "name": "Barry vd. Heuvel",
-            "email": "barryvdh@gmail.com"
+            "name": "Captain FLAM"
         },
         {
-            "name": "Captain FLAM"
+            "name": "Barry vd. Heuvel",
         }
     ],
     "require": {
