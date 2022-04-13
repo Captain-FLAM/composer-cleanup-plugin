@@ -60,8 +60,8 @@ class CleanupPlugin implements PluginInterface, EventSubscriberInterface
 	public static function getSubscribedEvents()
 	{
 		return array(
-			'post-package-install' => 'onPostPackageInstall',
-			'post-package-update' => 'onPostPackageUpdate',
+//			'post-package-install' => 'onPostPackageInstall',
+//			'post-package-update' => 'onPostPackageUpdate',
 //			'post-install-cmd' => 'onPostInstallUpdateCmd',
 //			'post-update-cmd' => 'onPostInstallUpdateCmd',
 			'pre-autoload-dump' => 'onPostInstallUpdateCmd',
